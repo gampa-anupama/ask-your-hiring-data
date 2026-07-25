@@ -37,9 +37,19 @@ export default function ChatBox() {
         message: text,
       }),
     });
-
     const data = await response.json();
 
+if (!response.ok) {
+  setMessages((prev) => [
+    ...prev,
+    {
+      sender: "assistant",
+      text: data.answer || "Something went wrong.",
+    },
+  ]);
+
+  return;
+}
     // Add backend response
     setMessages((prev) => [
   ...prev,

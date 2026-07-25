@@ -6,5 +6,14 @@ export function parseIR(response: string): QueryIR {
     .replace(/```/g, "")
     .trim();
 
-  return JSON.parse(cleaned);
+  const ir = JSON.parse(cleaned);
+
+  if (ir.filters) {
+    ir.filters = ir.filters.map((filter: any) => ({
+      operator: "=",
+      ...filter,
+    }));
+  }
+
+  return ir;
 }
