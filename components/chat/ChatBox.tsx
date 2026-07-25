@@ -42,12 +42,15 @@ export default function ChatBox() {
 
     // Add backend response
     setMessages((prev) => [
-      ...prev,
-      {
-        sender: "assistant",
-        text: data.answer,
-      },
-    ]);
+  ...prev,
+  {
+    sender: "assistant",
+    text:
+      typeof data.answer === "string"
+        ? data.answer
+        : JSON.stringify(data.answer, null, 2),
+  },
+]);
   }
 
   return (
