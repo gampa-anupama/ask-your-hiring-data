@@ -23,5 +23,5 @@ const scoped = applyRoleScope(rows, currentUser);
 const filtered = applyFilters(scoped, ir.filters);
   const result = aggregate(ir.metric, filtered);
 
-  return buildResponse(result);
+return buildResponse(ir, result);
 }
