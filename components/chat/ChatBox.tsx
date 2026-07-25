@@ -1,0 +1,74 @@
+"use client";
+
+import { useState } from "react";
+import ChatInput from "./ChatInput";
+import Message from "./Message";
+
+type ChatMessage = {
+  sender: "user" | "assistant";
+  text: string;
+};
+
+export default function ChatBox() {
+  const [messages, setMessages] = useState<ChatMessage[]>([
+    {
+      sender: "assistant",
+      text: "Hello! Ask me anything about your hiring data.",
+    },
+  ]);
+
+  async function sendMessage(text: string) {
+    // Add user message
+    setMessages((prev) => [
+      ...prev,
+      {
+        sender: "user",
+        text,
+      },
+    ]);
+
+    // Call backend
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        message: text,
+      }),
+    });
+
+    const data = await response.json();
+
+    // Add backend response
+    setMessages((prev) => [
+      ...prev,
+      {
+        sender: "assistant",
+        text: data.answer,
+      },
+    ]);
+  }
+
+  return (
+    <div className="mx-auto mt-10 flex h-[80vh] max-w-4xl flex-col rounded-lg border bg-white shadow">
+
+      <div className="border-b p-4 text-center text-2xl font-bold">
+        Ask Your Hiring Data
+      </div>
+
+      <div className="flex-1 overflow-y-auto p-4">
+        {messages.map((message, index) => (
+          <Message
+            key={index}
+            sender={message.sender}
+            text={message.text}
+          />
+        ))}
+      </div>
+
+      <ChatInput onSend={sendMessage} />
+
+    </div>
+  );
+}
