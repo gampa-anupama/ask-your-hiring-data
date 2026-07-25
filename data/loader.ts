@@ -1,11 +1,15 @@
 import Papa from "papaparse";
 
-export async function loadCSV(path: string) {
-  const response = await fetch(path);
+export async function loadCSV<T>(filePath: string): Promise<T[]> {
+  const response = await fetch(filePath);
 
-  const text = await response.text();
+  if (!response.ok) {
+    throw new Error(`Failed to load ${filePath}`);
+  }
 
-  const result = Papa.parse(text, {
+  const csvText = await response.text();
+
+  const result = Papa.parse<T>(csvText, {
     header: true,
     skipEmptyLines: true,
   });
