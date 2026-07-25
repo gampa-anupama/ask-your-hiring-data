@@ -3,6 +3,14 @@ import { QueryIR } from "../query-ir/types";
 export function generateMockIR(question: string): QueryIR {
   const q = question.toLowerCase();
 
+  if (q.includes("by department")) {
+  return {
+    entity: "jobs",
+    metric: "count",
+    filters: [],
+    groupBy: "department",
+  };
+}
   if (q.includes("engineering")) {
     return {
       entity: "jobs",

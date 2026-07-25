@@ -7,6 +7,13 @@ import Message from "./Message";
 type ChatMessage = {
   sender: "user" | "assistant";
   text: string;
+
+  chart?: {
+    label: string;
+    value: number;
+  }[];
+
+  table?: any[];
 };
 
 export default function ChatBox() {
@@ -59,6 +66,9 @@ if (!response.ok) {
       typeof data.answer === "string"
         ? data.answer
         : JSON.stringify(data.answer, null, 2),
+    chart: data.chart,
+
+    table: data.table,
   },
 ]);
   }
@@ -73,10 +83,11 @@ if (!response.ok) {
       <div className="flex-1 overflow-y-auto p-4">
         {messages.map((message, index) => (
           <Message
-            key={index}
-            sender={message.sender}
-            text={message.text}
-          />
+    sender={message.sender}
+    text={message.text}
+    chart={message.chart}
+    table={message.table}
+/>
         ))}
       </div>
 

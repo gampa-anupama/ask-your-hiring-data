@@ -1,18 +1,14 @@
-export function groupRows(
-  rows: any[],
-  field?: string
-) {
-  if (!field) return rows;
+export function groupRows(rows: any[], field: string) {
+  const groups: Record<string, number> = {};
 
-  return rows.reduce((groups: any, row) => {
-    const key = row[field];
+  rows.forEach((row) => {
+    const key = row[field] ?? "Unknown";
 
-    if (!groups[key]) {
-      groups[key] = [];
-    }
+    groups[key] = (groups[key] || 0) + 1;
+  });
 
-    groups[key].push(row);
-
-    return groups;
-  }, {});
+  return Object.entries(groups).map(([label, value]) => ({
+    label,
+    value,
+  }));
 }
