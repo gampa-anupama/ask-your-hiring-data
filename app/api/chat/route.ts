@@ -1,11 +1,10 @@
 import { NextResponse } from "next/server";
+import { analyticsService } from "@/lib/services/analyticsService";
 
 export async function POST(request: Request) {
   const body = await request.json();
 
-  console.log(body);
+  const result = await analyticsService(body.message);
 
-  return NextResponse.json({
-    answer: "Hello! Backend is working.",
-  });
+  return NextResponse.json(result);
 }
