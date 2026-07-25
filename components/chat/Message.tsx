@@ -1,8 +1,13 @@
 import AnalyticsChart from "./Analytics";
 import DataTable from "./DataTable";
+import MetricCard from "./MetricCard";
 type MessageProps = {
   sender: "user" | "assistant";
   text: string;
+  metric?: {
+  value: number;
+  title: string;
+};
   chart?: {
     label: string;
     value: number;
@@ -14,6 +19,8 @@ type MessageProps = {
 export default function Message({
   sender,
   text,
+    metric,
+
   chart,
   table
 }: MessageProps) {
@@ -33,6 +40,12 @@ export default function Message({
         <pre className="whitespace-pre-wrap font-sans">
           {text}
         </pre>
+        {metric && (
+  <MetricCard
+    value={metric.value}
+    title={metric.title}
+  />
+)}
 
         {chart && chart.length > 0 && (
           <AnalyticsChart data={chart} />

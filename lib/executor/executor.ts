@@ -6,6 +6,7 @@ import { buildResponse } from "./responseBuilder";
 import { currentUser } from "../auth/mockUser";
 import { applyRoleScope } from "../auth/scope";
 import { groupRows } from "./grouping";
+import { sortRows } from "./sorting";
 
 export async function execute(ir: QueryIR) {
   await initializeDataset();
@@ -24,12 +25,15 @@ export async function execute(ir: QueryIR) {
   const scopedRows = applyRoleScope(rows, currentUser);
 
   // Apply filters
-  const filtered = applyFilters(scopedRows, ir.filters);
-
+const filtered = applyFilters(scopedRows, ir.filters);
+const sorted = sortRows(
+  filtered,
+  ir.sortBy,
+  ir.sortOrder
+);
   // Handle GROUP BY queries
   if (ir.groupBy) {
-    const grouped = groupRows(filtered, ir.groupBy);
-
+const grouped = groupRows(sorted, ir.groupBy);
     console.log("========== GROUPED ==========");
     console.dir(grouped, { depth: null });
 
@@ -37,8 +41,7 @@ export async function execute(ir: QueryIR) {
   }
 
   // Handle normal queries
-  const result = aggregate(ir.metric, filtered);
-
+const result = aggregate(ir.metric, sorted);
   console.log("========== RESULT ==========");
   console.dir(result, { depth: null });
 

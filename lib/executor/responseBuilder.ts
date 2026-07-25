@@ -44,6 +44,13 @@ export function buildResponse(ir: QueryIR, result: any) {
 
   return {
   answer,
+  metric:
+    typeof result === "number"
+      ? {
+          value: result,
+          title: "Matching Jobs",
+        }
+      : undefined,
   chart:
     Array.isArray(result) &&
     result.length > 0 &&

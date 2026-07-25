@@ -1,15 +1,24 @@
 export function sortRows(
   rows: any[],
-  field?: string,
-  order: "asc" | "desc" = "asc"
+  sortBy?: string,
+  sortOrder: "asc" | "desc" = "asc"
 ) {
-  if (!field) return rows;
+  if (!sortBy) {
+    return rows;
+  }
 
   return [...rows].sort((a, b) => {
-    if (order === "asc") {
-      return String(a[field]).localeCompare(String(b[field]));
+    const first = a[sortBy];
+    const second = b[sortBy];
+
+    if (first < second) {
+      return sortOrder === "asc" ? -1 : 1;
     }
 
-    return String(b[field]).localeCompare(String(a[field]));
+    if (first > second) {
+      return sortOrder === "asc" ? 1 : -1;
+    }
+
+    return 0;
   });
 }

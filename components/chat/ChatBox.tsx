@@ -8,6 +8,11 @@ type ChatMessage = {
   sender: "user" | "assistant";
   text: string;
 
+  metric?: {
+    value: number;
+    title: string;
+  };
+
   chart?: {
     label: string;
     value: number;
@@ -17,6 +22,7 @@ type ChatMessage = {
 };
 
 export default function ChatBox() {
+  const [loading, setLoading] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       sender: "assistant",
@@ -35,6 +41,7 @@ export default function ChatBox() {
     ]);
 
     // Call backend
+    setLoading(true);
     const response = await fetch("/api/chat", {
       method: "POST",
       headers: {
@@ -66,11 +73,14 @@ if (!response.ok) {
       typeof data.answer === "string"
         ? data.answer
         : JSON.stringify(data.answer, null, 2),
+    metric: data.metric,
+
     chart: data.chart,
 
     table: data.table,
   },
 ]);
+setLoading(false);
   }
 
   return (
@@ -81,10 +91,19 @@ if (!response.ok) {
       </div>
 
       <div className="flex-1 overflow-y-auto p-4">
+        {loading && (
+  <div className="flex justify-start my-3">
+    <div className="rounded-lg bg-gray-200 px-4 py-3">
+      <div className="h-6 w-6 animate-spin rounded-full border-4 border-blue-500 border-t-transparent"></div>
+    </div>
+  </div>
+)}
         {messages.map((message, index) => (
           <Message
     sender={message.sender}
     text={message.text}
+      metric={message.metric}
+
     chart={message.chart}
     table={message.table}
 />
