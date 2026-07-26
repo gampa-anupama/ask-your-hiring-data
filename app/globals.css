@@ -1,26 +1,258 @@
 @import "tailwindcss";
 
+/* =========================================================
+   LIGHT THEME
+========================================================= */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --surface-2: #f1f5f9;
+  --border: #e2e8f0;
+
+  --text: #0f172a;
+  --muted: #64748b;
+
+  --primary: #2563eb;
+  --accent: #4f46e5;
+
+  --success: #16a34a;
+  --danger: #dc2626;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* =========================================================
+   DARK THEME (OpenRouter Inspired)
+========================================================= */
+
+html.dark {
+  --bg: #090d14;
+  --surface: #111827;
+  --surface-2: #1a2233;
+  --border: #283548;
+
+  --text: #f8fafc;
+  --muted: #94a3b8;
+
+  --primary: #c8ff3d;
+  --accent: #84cc16;
+
+  --success: #22c55e;
+  --danger: #ef4444;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* =========================================================
+   BASE
+========================================================= */
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+
+  background: var(--bg);
+  color: var(--text);
+
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
+
+  font-family:
+    Inter,
+    system-ui,
+    sans-serif;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  overflow: hidden;
+}
+
+/* =========================================================
+   TYPOGRAPHY
+========================================================= */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--text);
+  margin: 0;
+}
+
+p {
+  color: var(--text);
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* =========================================================
+   INPUTS
+========================================================= */
+
+input,
+textarea,
+button {
+  font: inherit;
+}
+
+input,
+textarea {
+  background: transparent;
+  color: var(--text);
+  border: none;
+  outline: none;
+}
+
+textarea {
+  resize: none;
+}
+
+::placeholder {
+  color: var(--muted);
+}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+button {
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+/* =========================================================
+   SELECTION
+========================================================= */
+
+::selection {
+  background: var(--primary);
+  color: #000;
+}
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #344155;
+  border-radius: 999px;
+}
+
+html.dark ::-webkit-scrollbar-thumb {
+  background: #3a4559;
+}
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  transition: all 0.25s ease;
+
+  box-shadow:
+    0 10px 35px rgba(0, 0, 0, 0.08);
+}
+
+html.dark .card {
+  box-shadow:
+    0 12px 45px rgba(0, 0, 0, 0.45);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+}
+
+/* =========================================================
+   GLASS
+========================================================= */
+
+.glass {
+  backdrop-filter: blur(18px);
+
+  background: rgba(255, 255, 255, 0.04);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+.fade-up {
+  animation: fadeUp 0.35s ease;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================================
+   TABLES
+========================================================= */
+
+table {
+  border-collapse: collapse;
+}
+
+th,
+td {
+  white-space: nowrap;
+}
+
+/* =========================================================
+   RECHARTS
+========================================================= */
+
+.recharts-tooltip-wrapper {
+  outline: none;
+}
+
+.recharts-default-tooltip {
+  border-radius: 16px !important;
+}
+
+html.dark {
+  --bg: #0B1220;
+  --surface: #111827;
+  --surface-2: #1E293B;
+  --border: #334155;
+
+  --text: #F8FAFC;
+  --muted: #94A3B8;
+
+  /* Primary */
+  --primary: #6366F1;
+
+  /* Accent */
+  --accent: #8B5CF6;
+
+  --success: #22C55E;
+  --danger: #EF4444;
 }

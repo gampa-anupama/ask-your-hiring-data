@@ -1,0 +1,77 @@
+[
+  {
+    "id": 1,
+    "question": "Count all jobs",
+    "expectedContains": "128"
+  },
+  {
+    "id": 2,
+    "question": "Count AI jobs",
+    "expectedContains": "21"
+  },
+  {
+    "id": 3,
+    "question": "Count Open jobs",
+    "expectedContains": "70"
+  },
+  {
+    "id": 4,
+    "question": "List Engineering jobs",
+    "expectedContains": "Engineering"
+  },
+  {
+    "id": 5,
+    "question": "Jobs by Department",
+    "expectedContains": "Engineering"
+  },
+  {
+    "id": 6,
+    "question": "List AI jobs",
+    "expectedContains": "AI"
+  },
+  {
+    "id": 7,
+    "question": "List HR jobs",
+    "expectedContains": "HR"
+  },
+  {
+    "id": 8,
+    "question": "List jobs in Hyderabad",
+    "expectedContains": "Hyderabad"
+  },
+  {
+    "id": 9,
+    "question": "List Open jobs",
+    "expectedContains": "Open"
+  },
+  {
+    "id": 10,
+    "question": "Group jobs by location",
+    "expectedContains": "Hyderabad"
+  },
+  {
+    "id": 11,
+    "question": "Group jobs by recruiter",
+    "expectedContains": "Alice"
+  },
+  {
+    "id": 12,
+    "question": "Group jobs by band",
+    "expectedContains": "L1"
+  },
+  {
+    "id": 13,
+    "question": "List Finance jobs",
+    "expectedContains": "Finance"
+  },
+  {
+    "id": 14,
+    "question": "List Sales jobs",
+    "expectedContains": "Sales"
+  },
+  {
+    "id": 15,
+    "question": "List Product jobs",
+    "expectedContains": "Product"
+  }
+]

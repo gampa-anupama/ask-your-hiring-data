@@ -1,6 +1,17 @@
 family,department
-Software Engineering,Engineering
-Artificial Intelligence,AI
-Human Resources,HR
+Frontend,Engineering
+Backend,Engineering
+Full Stack,Engineering
+QA,Engineering
+DevOps,Engineering
+Cloud,Engineering
+AI,AI
+Machine Learning,AI
+Computer Vision,AI
+NLP,AI
+Recruitment,HR
 Finance,Finance
+Marketing,Marketing
 Sales,Sales
+Product,Product
+Operations,Operations

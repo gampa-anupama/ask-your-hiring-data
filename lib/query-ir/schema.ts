@@ -2,7 +2,15 @@ import { z } from "zod";
 
 export const FilterSchema = z.object({
   field: z.string(),
-  operator: z.enum(["=", "!=", ">", "<", ">=", "<="]),
+  operator: z.enum([
+  "=",
+  "!=",
+  ">",
+  "<",
+  ">=",
+  "<=",
+  "contains"
+]),
   value: z.union([z.string(), z.number()]),
 });
 
@@ -14,3 +22,4 @@ export const QueryIRSchema = z.object({
   sortBy: z.string().nullable().optional(),
   sortOrder: z.enum(["asc", "desc"]).optional(),
 });
+
