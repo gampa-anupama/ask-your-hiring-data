@@ -18,8 +18,8 @@ export const QueryIRSchema = z.object({
   entity: z.string(),
   metric: z.string(),
   filters: z.array(FilterSchema),
-  groupBy: z.string().nullable().optional(),
-  sortBy: z.string().nullable().optional(),
+  groupBy: z.string().optional(),
+  sortBy: z.string().optional(),
   sortOrder: z.enum(["asc", "desc"]).optional(),
 });
 

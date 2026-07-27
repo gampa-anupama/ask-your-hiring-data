@@ -231,7 +231,7 @@ const [form, setForm] = useState({
 
           <div className="mt-8 text-center text-sm text-[var(--muted)]">
 
-            Don't have an account?{" "}
+            Do not have an account?{" "}
 
             <Link
               href="/signup"

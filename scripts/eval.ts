@@ -1,4 +1,11 @@
 import fs from "fs/promises";
+import dotenv from "dotenv";
+
+dotenv.config({
+  path: ".env.local",
+});
+
+import { analyticsService } from "../lib/services/analyticsService";
 
 interface EvalQuestion {
   id: number;
@@ -19,48 +26,41 @@ async function run() {
   let passed = 0;
 
   for (const test of tests) {
+    try {
+      const result = await analyticsService(
+        test.question,
+        {
+          role: "ADMIN",
+          recruiter: "Alice",
+        }
+      );
 
-    const response = await fetch(
-      "http://localhost:3000/api/chat",
-      {
-        method: "POST",
+      const answer = JSON.stringify(result);
 
-        headers: {
-          "Content-Type": "application/json",
-        },
+      const ok = answer
+        .toLowerCase()
+        .includes(
+          test.expectedContains.toLowerCase()
+        );
 
-        body: JSON.stringify({
-  message: test.question,
-}),
+      if (ok) {
+        console.log(
+          `✅ ${test.id}. ${test.question}`
+        );
+        passed++;
+      } else {
+        console.log(
+          `❌ ${test.id}. ${test.question}`
+        );
+        console.log("Expected:", test.expectedContains);
+        console.log("Received:", result.answer);
       }
-    );
-
-    const result = await response.json();
-
-    const answer = JSON.stringify(result);
-
-    const ok = answer
-      .toLowerCase()
-      .includes(
-        test.expectedContains.toLowerCase()
-      );
-
-    if (ok) {
-
-      console.log(
-        `✅ ${test.id}. ${test.question}`
-      );
-
-      passed++;
-
-    } else {
-
+    } catch (error) {
       console.log(
         `❌ ${test.id}. ${test.question}`
       );
-
+      console.error(error);
     }
-
   }
 
   console.log("\n--------------------");
@@ -68,7 +68,6 @@ async function run() {
   console.log(
     `Passed ${passed}/${tests.length}`
   );
-
 }
 
 run();
