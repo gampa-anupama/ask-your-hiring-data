@@ -57,6 +57,9 @@ import { applyRoleScope } from "../auth/scope";
 import { groupRows } from "./grouping";
 import { sortRows } from "./sorting";
 import { UserContext } from "../auth/roles";
+import { buildGrounding } from "../groundedness/ground";
+
+
 
 export async function execute(
   ir: QueryIR,
@@ -67,12 +70,9 @@ export async function execute(
 
   const dataset = getDataset();
 
-  const rows = (dataset as any)[ir.entity];
-
+const rows = dataset[ir.entity as keyof typeof dataset];
   if (!rows) {
-    return {
-      answer: "Unknown dataset",
-    };
+    throw new Error("Unknown dataset requested.");
   }
 
   const scopedRows = applyRoleScope(
@@ -80,17 +80,23 @@ export async function execute(
     user
   );
 
+  console.log("Rows after RBAC:", scopedRows.length);
   const filtered = applyFilters(
     scopedRows,
     ir.filters
   );
 
+  console.log("Rows after Filters:", filtered.length);
   const sorted = sortRows(
     filtered,
     ir.sortBy,
     ir.sortOrder
   );
-
+  const grounding = buildGrounding(
+  ir.entity,
+  ir.filters,
+  filtered
+);
   if (ir.groupBy) {
 
     const grouped = groupRows(
@@ -100,7 +106,8 @@ export async function execute(
 
     return buildResponse(
       ir,
-      grouped
+      grouped,
+      grounding
     );
 
   }
@@ -112,7 +119,8 @@ export async function execute(
 
   return buildResponse(
     ir,
-    result
+    result,
+    grounding
   );
 
 }

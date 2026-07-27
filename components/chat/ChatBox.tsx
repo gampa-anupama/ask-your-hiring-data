@@ -336,6 +336,16 @@ type ChatMessage = {
   }[];
 
   table?: any[];
+  grounding?: {
+    dataset: string;
+    rowsMatched: number;
+    fieldsUsed: string[];
+    appliedFilters: {
+      field: string;
+      operator: string;
+      value: string | number;
+    }[];
+  };
 };
 
 export default function ChatBox() {
@@ -385,16 +395,21 @@ export default function ChatBox() {
 
       const data = await response.json();
 
-      setMessages((prev) => [
-        ...prev,
-        {
-          sender: "assistant",
-          text: data.answer,
-          metric: data.metric,
-          chart: data.chart,
-          table: data.table,
-        },
-      ]);
+// Support both the old API shape and the new wrapped shape
+const payload = data.data ?? data;
+
+setMessages((prev) => [
+  ...prev,
+  {
+    sender: "assistant",
+    text: payload.answer ?? data.error ?? "No response received.",
+    metric: payload.metric,
+    chart: payload.chart,
+    table: payload.table,
+      grounding: payload.grounding,
+
+  },
+]);
     } catch {
       setMessages((prev) => [
         ...prev,
@@ -442,6 +457,7 @@ export default function ChatBox() {
               metric={message.metric}
               chart={message.chart}
               table={message.table}
+              grounding={message.grounding}
             />
           ))}
 

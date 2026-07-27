@@ -515,14 +515,25 @@ type MessageProps = {
   }[];
 
   table?: any[];
-};
 
+  grounding?: {
+    dataset: string;
+    rowsMatched: number;
+    fieldsUsed: string[];
+    appliedFilters: {
+      field: string;
+      operator: string;
+      value: string | number;
+    }[];
+  };
+};
 export default function Message({
   sender,
   text,
   metric,
   chart,
   table,
+   grounding,
 }: MessageProps) {
   const copy = () => navigator.clipboard.writeText(text);
 
@@ -804,9 +815,79 @@ export default function Message({
             </section>
 
           )}
+          {/* Grounding */}
 
+{grounding && (
+  <section>
+
+    <div className="mb-5 flex items-center gap-2">
+
+      <Sparkles
+        size={18}
+        className="text-green-400"
+      />
+
+      <h3
+        className="
+          font-semibold
+          tracking-wide
+          text-[var(--text)]
+        "
+      >
+        Grounded On
+      </h3>
+
+    </div>
+
+    <div
+      className="
+        rounded-2xl
+        border
+        border-[var(--border)]
+        bg-[var(--surface-2)]
+        p-6
+        space-y-3
+      "
+    >
+
+      <p>
+        <strong>Dataset:</strong> {grounding.dataset}
+      </p>
+
+      <p>
+        <strong>Rows Matched:</strong> {grounding.rowsMatched}
+      </p>
+
+      <p>
+  <strong>Fields Used:</strong>{" "}
+  {grounding.fieldsUsed.length > 0
+    ? grounding.fieldsUsed.join(", ")
+    : "None"}
+</p>
+
+<div>
+  <strong>Applied Filters:</strong>
+
+  {grounding.appliedFilters.length === 0 ? (
+    <p className="mt-2">None</p>
+  ) : (
+    <ul className="mt-2 list-disc pl-5">
+      {grounding.appliedFilters.map((filter, index) => (
+        <li key={index}>
+          {filter.field} {filter.operator} {String(filter.value)}
+        </li>
+      ))}
+    </ul>
+  )}
+</div>
+    </div>
+
+  </section>
+)}
+        
         </div>
-
+        
+          
       </div>
 
     </motion.div>

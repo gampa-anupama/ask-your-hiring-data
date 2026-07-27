@@ -69,7 +69,31 @@ import { UserContext } from "../auth/roles";
 export async function analyticsService(
   message: string,
   user: UserContext
+) 
+{
+  const lowerMessage = message.toLowerCase();
+
+const blockedPatterns = [
+  "ignore previous instructions",
+  "forget previous instructions",
+  "ignore all instructions",
+  "system prompt",
+  "reveal your prompt",
+  "show your prompt",
+  "developer instructions",
+  "act as",
+];
+
+if (
+  blockedPatterns.some((pattern) =>
+    lowerMessage.includes(pattern)
+  )
 ) {
+  return {
+    answer:
+      "Sorry, I cannot ignore my system instructions. Please ask a hiring analytics question.",
+  };
+}
   const prompt = `
 ${getPrompt("analytics-v1")}
 
@@ -107,7 +131,12 @@ ${message}
 
     console.log("========== VALIDATION ==========");
     console.dir(validation, { depth: null });
-
+    if ((ir as any).unsupported) {
+  return {
+    answer:
+      "Sorry, I can only answer questions related to hiring analytics.",
+  };
+}
     if (!validation.success) {
       return {
         answer: JSON.stringify(

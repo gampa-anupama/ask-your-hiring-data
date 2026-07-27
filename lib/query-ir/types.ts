@@ -4,7 +4,8 @@ export type Operator =
   | ">"
   | "<"
   | ">="
-  | "<=";
+  | "<="
+  | "contains";
 
 export interface Filter {
   field: string;
