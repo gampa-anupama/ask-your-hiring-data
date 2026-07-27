@@ -17,8 +17,15 @@ jobs:
 
       - run: npm install
 
+      # Generate Prisma Client
+      - run: npx prisma generate
+
       - run: npm run lint
 
       - run: npm run build
 
       - run: npm run eval
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          LLM_PROVIDER: openrouter
+          MODEL_NAME: inclusionai/ling-3.0-flash:free
